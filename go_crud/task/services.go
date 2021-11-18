@@ -3,7 +3,9 @@ package task
 type Service interface {
 	Index() ([]Task, error)
 	Store(input InputTask) (Task, error)
-	SelectById(input InputTaskDetail) (Task, error)
+	Show(id InputTaskDetail) (Task, error)
+	Update(inputDetail InputTaskDetail, input InputTask) (Task, error)
+	Destroy(id InputTaskDetail) (bool, error)
 }
 
 type service struct {
@@ -34,14 +36,37 @@ func (s *service) Store(input InputTask) (Task, error) {
 	return newTask, nil
 }
 
-func (s *service) SelectById(input InputTaskDetail) (Task, error) {
-	task := Task{}
-	taskId := input.ID
-	// fmt.Println(taskId)
+func (s *service) Show(id InputTaskDetail) (Task, error) {
+
+	taskId := id.ID
 
 	task, err := s.repository.SelectById(taskId)
 	if err != nil {
 		return task, err
 	}
 	return task, nil
+}
+
+func (s *service) Update(inputDetail InputTaskDetail, input InputTask) (Task, error) {
+	task, err := s.repository.SelectById(inputDetail.ID)
+	if err != nil {
+		return task, err
+	}
+
+	task.Name = input.Name
+	task.Description = input.Description
+
+	updatedTask, err := s.repository.Update(task)
+	if err != nil {
+		return updatedTask, err
+	}
+	return updatedTask, nil
+}
+
+func (s *service) Destroy(taskDetail InputTaskDetail) (bool, error) {
+	_, err := s.repository.Destroy(taskDetail)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }

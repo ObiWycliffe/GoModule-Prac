@@ -8,6 +8,8 @@ type Repository interface {
 	Insert(task Task) (Task, error)
 	SelectAll() ([]Task, error)
 	SelectById(id int) (Task, error)
+	Update(task Task) (Task, error)
+	Destroy(taskDetail InputTaskDetail) (bool, error)
 }
 
 type repository struct {
@@ -43,4 +45,23 @@ func (r *repository) SelectById(id int) (Task, error) {
 		return task, err
 	}
 	return task, nil
+}
+
+func (r *repository) Update(task Task) (Task, error) {
+	err := r.db.Save(&task).Error
+	if err != nil {
+		return task, err
+	}
+	return task, nil
+}
+
+func (r *repository) Destroy(taskDetail InputTaskDetail) (bool, error) {
+	task := Task{
+		ID: taskDetail.ID,
+	}
+	err := r.db.Delete(&task).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }

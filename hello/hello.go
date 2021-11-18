@@ -17,9 +17,7 @@ func main() {
 	// A slice of names
 	names := []string{
 		"OBI Wycliffe",
-		"Lucy Amondi",
 		"Ogutu Kennedy",
-		"Nick Wick",
 	}
 
 	// Request a greeting message.

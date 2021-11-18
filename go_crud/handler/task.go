@@ -85,7 +85,7 @@ func (h *taskHandler) Show(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-	task, err := h.taskService.SelectById(input)
+	task, err := h.taskService.Show(input)
 	if err != nil {
 		response := Response{
 			Success: false,
@@ -100,6 +100,61 @@ func (h *taskHandler) Show(c *gin.Context) {
 		Success: true,
 		Message: "Get task by id",
 		Data:    task,
+	}
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *taskHandler) Update(c *gin.Context) {
+	var inputDetail task.InputTaskDetail
+	var input task.InputTask
+
+	err := c.ShouldBindUri(&inputDetail)
+	if err != nil {
+		response := Response{
+			Success: false,
+			Message: "Somehing went wrong",
+			Data:    err.Error(),
+		}
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	newTask, err := h.taskService.Update(inputDetail, input)
+	if err != nil {
+		respose := Response{
+			Success: false,
+			Message: "Something went wrong",
+			Data:    err.Error(),
+		}
+		c.JSON(http.StatusBadRequest, respose)
+		return
+	}
+
+	response := Response{
+		Success: true,
+		Message: "Task updated successfully",
+		Data:    newTask,
+	}
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *taskHandler) Destroy(c *gin.Context) {
+	var inputDetail task.InputTaskDetail
+	err := c.ShouldBindUri(&inputDetail)
+	if err != nil {
+		respose := Response{
+			Success: false,
+			Message: "Something went wrong",
+			Data:    err.Error(),
+		}
+		c.JSON(http.StatusBadRequest, respose)
+		return
+	}
+
+	response := Response{
+		Success: true,
+		Message: "Task has been deleted successfully",
+		Data:    nil,
 	}
 	c.JSON(http.StatusOK, response)
 }
