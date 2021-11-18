@@ -1,4 +1,4 @@
-module github.com/ObiWycliffe/GoModule/rest
+module github.com/ObiWycliffe/GoModule/rest_A
 
 go 1.17
 

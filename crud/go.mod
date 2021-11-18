@@ -1,4 +1,4 @@
-module github.com/ObiWycliffe/GoModule/go_crud
+module github.com/ObiWycliffe/GoModule/crud
 
 go 1.17
 

@@ -18,6 +18,7 @@ func main() {
 	names := []string{
 		"OBI Wycliffe",
 		"Ogutu Kennedy",
+		"Marcus Pierto",
 	}
 
 	// Request a greeting message.

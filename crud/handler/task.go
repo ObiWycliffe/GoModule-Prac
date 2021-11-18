@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/ObiWycliffe/GoModule/go_crud/task"
+	"github.com/ObiWycliffe/GoModule/crud/task"
 	"github.com/gin-gonic/gin"
 )
 
